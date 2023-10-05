@@ -5,7 +5,10 @@ using UnityEngine.UI;
 
 public class playerMove : MonoBehaviour
 {
+    static public bool passLevel_1 = false;
     public float jumppower = 5, speed = 5, deg = 60, blood = 49;
+    [SerializeField] private Vector3[] destinationOfWay;
+    [SerializeField] private bool[] Arrived = {false, false, false, false, false, false};
     private Vector3 originPosition;
     private int jumpAbility = 1;
     private Rigidbody _rb;
@@ -23,6 +26,7 @@ public class playerMove : MonoBehaviour
     {
         if (buttonManager.game_start == true) {
             Control();
+            QuickPass();
         }
     }
     void Control()
@@ -49,8 +53,17 @@ public class playerMove : MonoBehaviour
             else 
                 playerCamera.GetComponent<Camera>() .depth = -1;
         }
-        if (Input.GetKeyDown(KeyCode.Escape)) {
+        if (Input.GetKeyDown(KeyCode.Escape) || gameObject.transform.position.y < -2) {
             Dead();
+        }
+    }
+    void QuickPass()
+    {
+        if (Input.GetKeyDown(KeyCode.P)) {
+            for (int i = 0; i < 6; i++)
+                Arrived[i] = true;
+            gameObject.transform.position = destinationOfWay[7];
+            passLevel_1 = true;
         }
     }
     void UpdateBlood()
@@ -61,6 +74,9 @@ public class playerMove : MonoBehaviour
     {
         buttonManager.game_start = false;
         gameObject.transform.position = originPosition;
+        for (int i = 0; i < 6; i++)
+            Arrived[i] = false;
+        gameObject.transform.eulerAngles = new Vector3(0, 0, 0);
         blood = 49;
         UpdateBlood();
         buttonManager.GUIchange = true;
@@ -76,23 +92,50 @@ public class playerMove : MonoBehaviour
             if (blood <= 0)
                 Dead();
         }
+    }
+    void OnTriggerEnter(Collider other) {
         switch (other.gameObject.tag) {
             case "way1": {
+                gameObject.transform.position = destinationOfWay[1];
+                Arrived[0] = true;
                 break;
             }
             case "way2": {
+                if (Arrived[0]) {
+                    gameObject.transform.position = destinationOfWay[2];
+                    Arrived[1] = true;
+                } else 
+                    gameObject.transform.position = destinationOfWay[0];
                 break;
             }
             case "way3": {
+                if (Arrived[0]) {
+                    gameObject.transform.position = destinationOfWay[3];
+                    Arrived[2] = true;
+                } else 
+                    gameObject.transform.position = destinationOfWay[0];
                 break;
             }
             case "way4": {
+                if (Arrived[0]) {
+                    gameObject.transform.position = destinationOfWay[4];
+                    Arrived[3] = true;
+                } else 
+                    gameObject.transform.position = destinationOfWay[6];
                 break;
             }
             case "way5": {
+                if (Arrived[0]) {
+                    gameObject.transform.position = destinationOfWay[5];
+                    Arrived[4] = true;
+                } else 
+                    gameObject.transform.position = destinationOfWay[6];
                 break;
             }
             case "way6": {
+                gameObject.transform.position = destinationOfWay[7];
+                Arrived[5] = true;
+                passLevel_1 = true;
                 break;
             }
             default: {

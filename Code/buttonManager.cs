@@ -46,15 +46,18 @@ public class buttonManager : MonoBehaviour
                 gra[i].SetActive(true);
             }
             describtion.text = "DESCRIPTION \n\n"+
-                                "W: forward \n"+
-                                "S: back \n"+
-                                "A: turn left \n"+
-                                "D: turn right \n"+
-                                "------------------------------------------ \n\n"+
+                                "W: forward     S: back \n"+ 
+                                "A: turn left    D: turn right \n"+
+                                "space: jump \n"+
+                                "left arrow: lower light \n"+
+                                "right arrow: higher light \n"+
+                                "up arrow: light rotate up \n"+
+                                "down arrow: light rotate down \n"+
+                                "-------------------------------------------------------------------- \n\n"+
                                 "              : transportation door \n\n"+
-                                "can transform you to a specified place. \n\n\n"+
+                                "Can transform you to a specified place. You have to go into the next transportation door that is nearest to you. \n\n\n"+
                                 "              : gate \n\n\n"+
-                                "can move left and right repeatly. \n\n"+
+                                "Move left and right or up and down repeatly. If you colloid them, you'll get hurt.\n\n"+
                                 "              : golden cup \n\n"+
                                 "get it to complete the game by taking the transportation doors around the map!\n";
             describePannel = true;

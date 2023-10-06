@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class playerMove : MonoBehaviour
 {
-    static public bool passLevel_1 = false;
+    static public bool passLevel_1 = false, passLevel_2 = false;
     public float jumppower = 5, speed = 5, deg = 60, blood = 49;
     [SerializeField] private Vector3[] destinationOfWay;
-    [SerializeField] private bool[] Arrived = {false, false, false, false, false, false};
+    private bool[] Arrived = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
     private Vector3 originPosition;
     private int jumpAbility = 1;
     private Rigidbody _rb;
@@ -17,7 +17,7 @@ public class playerMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        originPosition = new Vector3(10, 2, 1);
+        originPosition = new Vector3(10, 2, 2.5f);
         _rb = gameObject.GetComponent<Rigidbody>();
     }
 
@@ -60,11 +60,19 @@ public class playerMove : MonoBehaviour
     void QuickPass()
     {
         if (Input.GetKeyDown(KeyCode.P)) {
-            for (int i = 0; i < 6; i++)
-                Arrived[i] = true;
-            gameObject.transform.position = destinationOfWay[7];
-            passLevel_1 = true;
+            if (!passLevel_1) {
+                for (int i = 0; i < 6; i++)
+                    Arrived[i] = true;
+                gameObject.transform.position = destinationOfWay[7];
+                passLevel_1 = true;
+            } else {
+                for (int i = 6; i < 15; i++)
+                    Arrived[i] = true;
+                gameObject.transform.position = destinationOfWay[16];
+                passLevel_2 = true;
+            }
         }
+
     }
     void UpdateBlood()
     {
@@ -74,7 +82,7 @@ public class playerMove : MonoBehaviour
     {
         buttonManager.game_start = false;
         gameObject.transform.position = originPosition;
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 15; i++)
             Arrived[i] = false;
         gameObject.transform.eulerAngles = new Vector3(0, 0, 0);
         blood = 49;
@@ -87,7 +95,7 @@ public class playerMove : MonoBehaviour
             jumpAbility = 1;
         }
         if (other.gameObject.tag == "gate") {
-            blood -= 5;
+            blood -= 2;
             UpdateBlood();
             if (blood <= 0)
                 Dead();
@@ -136,6 +144,75 @@ public class playerMove : MonoBehaviour
                 gameObject.transform.position = destinationOfWay[7];
                 Arrived[5] = true;
                 passLevel_1 = true;
+                break;
+            }
+            case "way7": {
+                gameObject.transform.position = destinationOfWay[8];
+                Arrived[6] = true;
+                break;
+            }
+            case "way8": {
+                if (Arrived[6]) {
+                    gameObject.transform.position = destinationOfWay[9];
+                    Arrived[7] = true;
+                } else 
+                    gameObject.transform.position = destinationOfWay[7];
+                break;
+            }
+            case "way9": {
+                if (Arrived[6]) {
+                    gameObject.transform.position = destinationOfWay[10];
+                    Arrived[8] = true;
+                } else 
+                    gameObject.transform.position = destinationOfWay[7];
+                break;
+            }
+            case "way10": {
+                if (Arrived[6] && Arrived[12]) {
+                    gameObject.transform.position = destinationOfWay[11];
+                    Arrived[9] = true;
+                } else 
+                    gameObject.transform.position = destinationOfWay[9];
+                break;
+            }
+            case "way11": {
+                if (Arrived[6] && Arrived[12]) {
+                    gameObject.transform.position = destinationOfWay[12];
+                    Arrived[10] = true;
+                } else 
+                    gameObject.transform.position = destinationOfWay[9];
+                break;
+            }
+            case "way12": {
+                if (Arrived[6] && Arrived[12]) {
+                    gameObject.transform.position = destinationOfWay[13];
+                    Arrived[11] = true;
+                } else 
+                    gameObject.transform.position = destinationOfWay[9];
+                break;
+            }
+            case "way13": {
+                if (Arrived[6] && Arrived[8]) {
+                    gameObject.transform.position = destinationOfWay[14];
+                    Arrived[12] = true;
+                } else {
+                    gameObject.transform.position = destinationOfWay[8];
+                    Arrived[12] = true;
+                }
+                break;
+            }
+            case "way14": {
+                if (Arrived[9]) {
+                    gameObject.transform.position = destinationOfWay[15];
+                    Arrived[13] = true;
+                } else 
+                    gameObject.transform.position = destinationOfWay[10];
+                break;
+            }
+            case "way15": {
+                gameObject.transform.position = destinationOfWay[16];
+                Arrived[14] = true;
+                passLevel_2 = true;
                 break;
             }
             default: {

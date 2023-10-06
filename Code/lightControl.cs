@@ -25,10 +25,10 @@ public class lightControl : MonoBehaviour
             if (lightComp.intensity > 0) 
                 lightComp.intensity -= brightness;
         } else if (Input.GetKeyDown(KeyCode.RightArrow)) {
-            if (lightComp.intensity < 5)
+            if (lightComp.intensity < 10)
                 lightComp.intensity += brightness;
         }
-        if (Input.GetKey(KeyCode.UpArrow) && gameObject.transform.rotation.x > -10*Mathf.PI/180) {
+        if (Input.GetKey(KeyCode.UpArrow) && gameObject.transform.rotation.x > -30*Mathf.PI/180) {
             transform.Rotate(-deg*Time.deltaTime, 0, 0, Space.Self);   
         } else if (Input.GetKey(KeyCode.DownArrow) && gameObject.transform.rotation.x < 30*Mathf.PI/180) {
             transform.Rotate(deg*Time.deltaTime, 0, 0, Space.Self); 

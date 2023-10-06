@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class playerMove : MonoBehaviour
 {
-    static public bool passLevel_1 = false, passLevel_2 = false;
+    static public bool passLevel_1 = false, passLevel_2 = false, gamefinish = false;
     public float jumppower = 5, speed = 5, deg = 60, blood = 49;
     [SerializeField] private Vector3[] destinationOfWay;
     private bool[] Arrived = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
@@ -81,6 +82,8 @@ public class playerMove : MonoBehaviour
     void Dead()
     {
         buttonManager.game_start = false;
+        passLevel_1 = false;
+        passLevel_2 = false;
         gameObject.transform.position = originPosition;
         for (int i = 0; i < 15; i++)
             Arrived[i] = false;
@@ -99,6 +102,11 @@ public class playerMove : MonoBehaviour
             UpdateBlood();
             if (blood <= 0)
                 Dead();
+        }
+        if (other.gameObject.tag == "goldencup") {
+            gamefinish = true;
+            Dead();
+            SceneManager.LoadScene(1);
         }
     }
     void OnTriggerEnter(Collider other) {

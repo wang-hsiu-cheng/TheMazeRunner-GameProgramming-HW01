@@ -19,5 +19,9 @@ public class levelGateControl : MonoBehaviour
             transform.Translate(0, speed*Time.deltaTime, 0);
         if (gameObject.transform.position.y > 5.5)
             active = false;
+        if (playerMove.passLevel_2 && !active) {
+            gameObject.transform.position = new Vector3(0, 2.5f, 0);
+            active = true;
+        }
     }
 }
